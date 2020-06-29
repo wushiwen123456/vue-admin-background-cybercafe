@@ -1,0 +1,23 @@
+{
+  "id": "1895178",
+  "name": "vue-admin-background-cybercafe",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "3092315",
+      "name": "图表 上升趋势",
+      "font_class": "tubiaoshangshengqushi",
+      "unicode": "e791",
+      "unicode_decimal": 59281
+    },
+    {
+      "icon_id": "3092316",
+      "name": "图表 下降趋势",
+      "font_class": "tubiaoxiajiangqushi",
+      "unicode": "e790",
+      "unicode_decimal": 59280
+    }
+  ]
+}
