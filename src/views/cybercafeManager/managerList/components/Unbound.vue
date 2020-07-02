@@ -9,14 +9,12 @@
       <i class="el-icon-warning-outline"></i>
       确定要解除绑定么
     </p>
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="剩余网吧个数：" prop="title">
-        <!-- <el-input v-model.trim="form.title" autocomplete="off"></el-input> -->
-        <span>{{ form.title }}</span>
+    <el-form ref="form" :model="form" label-width="140px">
+      <el-form-item label="当前网吧剩余时长：">
+        <span>{{ form.duration }}天</span>
       </el-form-item>
-      <el-form-item label="剩余网吧时间：" prop="author">
-        <!-- <el-input v-model.trim="form.author" autocomplete="off"></el-input> -->
-        <span>{{ form.author }}</span>
+      <el-form-item label="剩余网吧数量：">
+        <span>{{ total }}家</span>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -27,55 +25,43 @@
 </template>
 
 <script>
-import { doEdit } from '@/api/table'
+import { unbound } from '@/api/table'
 
 export default {
   name: 'Unbound',
   data() {
     return {
       form: {
-        title: '',
-        author: '',
+        duration: '',
       },
-      title: '',
+      title: '温馨提示',
       dialogFormVisible: false,
+      total: '',
     }
   },
   methods: {
-    showEdit(row) {
-      if (!row) {
-        this.title = '温馨提示'
-      } else {
-        this.title = '编辑'
-        this.form = Object.assign({}, row)
-      }
+    showEdit(row, total) {
+      console.log(row, total)
+      this.form = Object.assign({}, row)
+      this.total = total
       this.dialogFormVisible = true
     },
     close() {
-      this.$refs['form'].resetFields()
-      this.form = this.$options.data().form
       this.dialogFormVisible = false
     },
     save() {
-      //   this.$refs['form'].validate((valid) => {
-      //     console.log(valid)
-      //     if (valid) {
-      //       // doEdit(this.form).then((res) => {
-      //       //   this.$baseMessage(res.msg, 'success')
-      //       //   this.$refs['form'].resetFields()
-      //       //   this.dialogFormVisible = false
-      //       //   this.$emit('fetchData')
-      //       //   this.form = this.$options.data().form
-      //       // })
-      //     } else {
-      //       return false
-      //     }
-      //   })
-      // },
-      this.$baseMessage('解除绑定成功', 'success')
-      this.$refs['form'].resetFields()
-      this.dialogFormVisible = false
-      this.form = this.$options.data().form
+      const data = {
+        id: this.form.id,
+      }
+      unbound(data).then((res) => {
+        if (res.code == 200) {
+          this.$baseMessage(res.msg, 'success')
+          this.dialogFormVisible = false
+          this.$emit('fetchData')
+        } else {
+          this.$baseMessage(res.msg, 'error')
+        }
+      })
     },
   },
 }
@@ -85,8 +71,12 @@ export default {
   font-size: 16px;
   text-align: center;
   margin-bottom: 21px;
+  color: $base-content-color;
   i {
     color: #e6a23c;
+  }
+  .el-dialog {
+    color: $base-content-color !important;
   }
 }
 </style>

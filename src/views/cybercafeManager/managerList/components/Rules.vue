@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import { doEdit } from '@/api/table'
+import { ruleDetail, allNetworkRules, formNetworkRules } from '@/api/table'
 
 export default {
   name: 'Rules',
@@ -131,63 +131,12 @@ export default {
       input1: '',
       input2: '',
       totalRules: {},
-      data2: [
-        {
-          id: 1,
-          label: '一级 1',
-          isOpen: false,
-          children: [
-            {
-              id: 4,
-              grouping_id: 1,
-              label: '二级 1-1',
-              isOpen: false,
-            },
-          ],
-        },
-        {
-          id: 2,
-          label: '一级 2',
-          isOpen: false,
-          children: [
-            {
-              id: 5,
-              label: '二级 2-1',
-              grouping_id: 2,
-              isOpen: false,
-            },
-            {
-              id: 6,
-              label: '二级 2-2',
-              grouping_id: 2,
-              isOpen: false,
-            },
-          ],
-        },
-        {
-          id: 3,
-          label: '一级 3',
-          isOpen: false,
-          children: [
-            {
-              id: 7,
-              label: '二级 3-1',
-              isOpen: false,
-              grouping_id: 3,
-            },
-            {
-              id: 8,
-              label: '二级 3-2',
-              isOpen: false,
-              grouping_id: 3,
-            },
-          ],
-        },
-      ],
+      data2: [],
       defaultProps: {
         children: 'children',
-        label: 'label',
+        label: 'name',
       },
+      rows: [],
     }
   },
   computed: {
@@ -224,11 +173,39 @@ export default {
     showEdit(row) {
       if (row instanceof Array) {
         this.title = '*分配规则'
+        this.allNetworkRules()
       } else {
-        this.title = `[${row.title}] 分配规则`
-        this.rule = Object.assign({}, row)
+        this.title = '[' + row.name + ']' + ' ' + '分配规则'
+        this.allNetworkRules(row.id)
       }
+      this.rows = row
       this.dialogFormVisible = true
+    },
+    // 获取所有规则信息
+    allNetworkRules(id) {
+      if (!id) {
+        allNetworkRules().then((res) => {
+          if (res.code == 200) {
+            let allRules = res.data
+            allRules.forEach((item) => this.allRulesInit(item, false))
+            this.data2 = allRules
+          } else {
+          }
+        })
+      } else {
+        ruleDetail({ id }).then((res) => {
+          this.data2 = res.data
+        })
+      }
+    },
+    // 初始化所有规则列表
+    allRulesInit(rule, status) {
+      rule.isOpen = status
+      if (rule.children && rule.children.length > 0) {
+        rule.children.forEach((child) => {
+          this.allRulesInit(child, status)
+        })
+      }
     },
     // 点击取消
     close() {
@@ -236,20 +213,54 @@ export default {
     },
     // 点击确定
     save() {
-      this.dialogFormVisible = false
+      let id
+      if (this.rows instanceof Array) {
+        // 多个提交
+        id = this.rows.map((item) => item.id).join(',')
+      } else {
+        // 单个提交
+        id = this.rows.id
+      }
+      const rule_id = this.dealRightData(this.data3).join(',')
+      // 提交数据
+      formNetworkRules({ id, rule_id }).then((res) => {
+        if (res.code == 200) {
+          this.$baseMessage(res.msg, 'success')
+          this.$emit('fetchData')
+          this.dialogFormVisible = false
+        } else {
+          this.$baseMessage(res.msg, 'error')
+        }
+      })
+    },
+    // 对提交的数据进行处理
+    dealRightData(data3) {
+      // 取所有的二级id，不要一级
+      const arr = []
+      let data = data3.filter(
+        (item) => item.children && item.children.length > 0
+      )
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[i].children.length; j++) {
+          arr.push(data[i].children[j].id)
+        }
+      }
+      return arr
     },
     // 对节点进行过滤
     filterNode(value, data) {
       if (!value) return true
-      return data.label.indexOf(value) !== -1
+      return data.name.indexOf(value) !== -1
     },
     // 点击节点右边按钮触发
     changeStatus(item) {
       const status = item.isOpen
+      // 如果没有children属性，则自动return
+      if (!item.grouping_id && item.children.length == 0) return
       // 渲染当前节点下面的所有子节点
       this.hanldleStatus(item, status)
       // 判断是否改变属性
-      this.isChangeStatus(this.data2)
+      // this.isChangeStatus(this.data2)
     },
 
     // 点击开启全部触发
@@ -314,15 +325,8 @@ export default {
     },
     // 对规则进行筛选，选出已选数组
     filterData(list) {
-      // if (list.length == 0) return []
-      // const arr = []
-      // list.forEach((item) => {
-      //   const obj = this.deepFilterList(item)
-      //   arr.push(obj)
-      // })
-      // return arr
-
       const dataList = []
+      console.log(list)
       list.forEach((item2) => {
         let item = this.deepFilterList(item2)
         const linshi = []
@@ -439,5 +443,11 @@ export default {
 }
 .remove {
   color: $base-color-red;
+}
+.custom-tree-node {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

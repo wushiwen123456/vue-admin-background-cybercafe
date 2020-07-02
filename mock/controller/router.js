@@ -20,13 +20,19 @@ const data = [
     path: '/mamager',
     component: 'Layout',
     redirect: 'noRedirect',
-    meta: { title: '网吧管理', remixIcon: 'airplay-line' },
+    meta: { title: '网吧管理', icon: 'home' },
     children: [
       {
         path: 'mamagerList',
         name: 'MamagerList',
         component: 'cybercafeManager/managerList/index',
-        meta: { title: '网吧管理', remixIcon: 'airplay-line' },
+        meta: { title: '网吧管理', icon: 'home' },
+      },
+      {
+        path: '/groupManager',
+        name: 'GroupManager',
+        component: 'cybercafeManager/groupManager/index',
+        meta: { title: '分组管理', icon: 'home' },
       },
     ],
   },

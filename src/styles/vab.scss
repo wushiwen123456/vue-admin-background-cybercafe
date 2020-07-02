@@ -409,3 +409,48 @@ html body .el-table th {
 .el-loading-mask {
   background: $base-content-content;
 }
+.el-table tr,
+.el-table__expanded-cell {
+  background: $base-content-content;
+  color: $base-content-color;
+}
+.el-dialog__title {
+  color: $base-content-color;
+}
+html body .el-dialog__body,
+html body .el-message-box__body {
+  border-top: none;
+}
+html body .el-dialog__footer,
+html body .el-message-box__footer {
+  border-top: none;
+}
+.left-panel {
+  padding-left: 15px;
+}
+.right-panel {
+  padding-right: 15px;
+}
+.el-table__fixed-right-patch {
+  background: transparent;
+}
+.el-table .is-disabled > .el-checkbox__inner {
+  background-color: #666;
+  border-color: #666;
+}
+.el-dialog__body {
+  color: $base-content-color;
+}
+.el-button .iconfont {
+  font-size: inherit;
+}
+.el-tree {
+  background: $base-content-content;
+  color: $base-content-color;
+}
+.el-tree-node__content:hover {
+  background-color: $base-content-bg;
+}
+.el-tree-node:focus > .el-tree-node__content {
+  background-color: $base-content-bg;
+}
