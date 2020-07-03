@@ -3,8 +3,8 @@
     <div class="login-logo-bysj"></div>
     <el-row>
       <el-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
+        <!-- 手机架验证码登录 -->
         <el-form
-          v-show="formMethod == 'normal'"
           ref="loginForm"
           :model="loginForm"
           :rules="loginRules"
@@ -16,111 +16,113 @@
             hello !
           </div>
           <div class="title-tips">欢迎来到{{ title }}！</div>
-          <!-- <el-form-item
-            style="margin-top: 49px;"
-            prop="userName"
-            class="login-form-admin"
-          >
-            <span class="svg-container svg-container-admin">
-              <vab-icon :icon="['fas', 'user']" />
-            </span>
-            <el-input
-              v-model.trim="loginForm.userName"
-              v-focus
-              auto-complete="off"
-              placeholder="请输入用户名"
-              tabindex="1"
-              type="text"
-            />
-          </el-form-item> -->
-          <!-- <el-form-item prop="password" class="login-form-pass">
-            <span class="svg-container svg-container-pass"
-              ><vab-icon :icon="['fas', 'lock']"
-            /></span>
-            <el-input
-              :key="passwordType"
-              ref="password"
-              v-model.trim="loginForm.password"
-              :type="passwordType"
-              auto-complete="off"
-              placeholder="请输入密码"
-              tabindex="2"
-              @keyup.enter.native="handleLogin"
-            />
-            <span
-              v-if="passwordType === 'password'"
-              class="show-pwd"
-              @click="showPwd"
-              ><vab-icon :icon="['fas', 'eye-slash']"
-            /></span>
-            <span v-else class="show-pwd" @click="showPwd"
-              ><vab-icon :icon="['fas', 'eye']"
-            /></span>
-          </el-form-item> -->
-          <el-form-item prop="phone" class="login-form-admin">
-            <span class="svg-container svg-container-admin">
-              <vab-icon :icon="['fas', 'phone']" />
-            </span>
-            <el-input
-              v-model="loginForm.phone"
-              auto-complete="off"
-              placeholder="请输入手机号"
-              tabindex="1"
-              type="text"
-            />
-            <el-button type="primary" class="send-code">发送验证码</el-button>
-          </el-form-item>
-          <el-form-item prop="img-cord" class="login-form-imgCord">
-            <el-input
-              v-model="loginForm.imgCord"
-              auto-complete="off"
-              placeholder="请输入验证码"
-              tabindex="1"
-              type="text"
-            />
-            <img
-              v-if="dialogImageCode"
-              :src="imgCode"
-              class="img-code"
-              alt=""
-              @click="getImageCode"
-            />
-          </el-form-item>
-          <el-form-item prop="phoneCord" class="login-form-imgCord">
-            <el-input
-              v-model="loginForm.phoneCord"
-              v-focus
-              auto-complete="off"
-              placeholder="请输入手机验证码"
-              tabindex="1"
-              type="text"
-            />
-          </el-form-item>
-          <!-- <el-form-item prop="phoneCord" class="login-form-admin">
-            <span class="svg-container svg-container-admin">
-              <vab-icon :icon="['fas', 'user']" />
-            </span>
-            <el-input
-              v-model.trim="loginForm.phoneCord"
-              v-focus
-              auto-complete="off"
-              placeholder="请输入手机验证码"
-              tabindex="1"
-              type="text"
-            />
-          </el-form-item> -->
+
+          <div v-show="formMethod == 'phone'">
+            <el-form-item prop="phone" class="login-form-admin">
+              <span class="svg-container svg-container-admin">
+                <vab-icon :icon="['fas', 'mobile-alt']" />
+              </span>
+              <el-input
+                v-model="loginForm.phone"
+                auto-complete="off"
+                placeholder="请输入手机号"
+                tabindex="1"
+                type="text"
+              />
+              <el-button type="primary" class="send-code">发送验证码</el-button>
+            </el-form-item>
+            <el-form-item prop="img-cord" class="login-form-imgCord">
+              <el-input
+                v-model="loginForm.imgCord"
+                auto-complete="off"
+                placeholder="请输入验证码"
+                tabindex="1"
+                type="text"
+              />
+              <img
+                v-if="dialogImageCode"
+                :src="imgCode"
+                class="img-code"
+                alt=""
+                @click="getImageCode"
+              />
+            </el-form-item>
+            <el-form-item prop="phoneCord" class="login-form-imgCord">
+              <el-input
+                v-model="loginForm.phoneCord"
+                v-focus
+                auto-complete="off"
+                placeholder="请输入手机验证码"
+                tabindex="1"
+                type="text"
+              />
+            </el-form-item>
+          </div>
+
+          <div v-show="formMethod == 'normal'">
+            <el-form-item prop="phone" class="login-form-admin">
+              <span class="svg-container svg-container-admin">
+                <vab-icon :icon="['fas', 'mobile-alt']" />
+              </span>
+              <el-input
+                v-model="loginForm.phone"
+                auto-complete="off"
+                placeholder="请输入手机号"
+                tabindex="1"
+                type="text"
+              />
+            </el-form-item>
+            <el-form-item class="login-form-admin">
+              <span class="svg-container svg-container-admin">
+                <vab-icon :icon="['fas', 'lock']" />
+              </span>
+              <el-input
+                v-model="loginForm.password"
+                v-focus
+                auto-complete="off"
+                placeholder="请输入密码"
+                tabindex="1"
+                type="text"
+              />
+            </el-form-item>
+          </div>
+
+          <div v-show="formMethod == 'weixin'" class="ewm_container">
+            <el-form-item class="login-form-imgCord">
+              <div class="ewm-box">
+                <img src="@/assets/ewm_me.png" />
+              </div>
+            </el-form-item>
+          </div>
+
           <el-button
+            v-show="formMethod != 'weixin'"
             :loading="loading"
             class="login-btn"
             type="primary"
             @click="handleLogin"
             >登录
           </el-button>
-          <!-- <div class="choose-login">
-            <el-button type="success" icon="iconfont icon-weixin" circle @click="checkLogin(1)" />
-            <el-button type="primary" icon="iconfont icon-phone" circle @click="checkLogin(2)" />
-            <el-button type="success" icon="iconfont icon-weixin" circle @click="checkLogin(3)" />
-          </div> -->
+          <div class="choose-login">
+            <el-button
+              type="success"
+              icon="iconfont icon-weixin"
+              circle
+              @click="checkLogin(1)"
+            />
+            <el-button
+              type="primary"
+              icon="iconfont icon-phone"
+              circle
+              @click="checkLogin(2)"
+            />
+            <el-button
+              type="warning"
+              icon="iconfont icon-jianpan"
+              circle
+              @click="checkLogin(3)"
+            />
+          </div>
         </el-form>
       </el-col>
     </el-row>
@@ -175,7 +177,6 @@ export default {
       nodeEnv: process.env.NODE_ENV,
       title: this.$baseTitle,
       loginForm: {
-        userName: '',
         password: '',
         phoneCord: '',
         phone: '',
@@ -249,24 +250,51 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(async (valid) => {
-        if (valid) {
-          this.loading = true
-          await this.$store.dispatch('user/login', this.loginForm)
-          const routerPath =
-            this.redirect === '/404' || this.redirect === '/401'
-              ? '/'
-              : this.redirect
-          console.log(routerPath)
-          this.$router.push({ path: routerPath }).catch((error) => {})
-          this.loading = false
-        } else {
-          return false
-        }
-      })
+      let type
+      switch (this.formMethod) {
+        case 'phone':
+          type = 1
+          break
+        case 'normal':
+          type = 0
+          break
+        default:
+          break
+      }
+      let data = {
+        type,
+        phone: this.loginForm.phone,
+        password: this.loginForm.password,
+        smsCode: this.loginForm.phoneCord,
+      }
+
+      this.doLogin(data)
+    },
+    async doLogin(data) {
+      this.loading = true
+      await this.$store.dispatch('user/login', data)
+      const routerPath =
+        this.redirect === '/404' || this.redirect === '/401'
+          ? '/'
+          : this.redirect
+      this.$router.push({ path: routerPath }).catch((error) => {})
+      this.loading = false
+    },
+    // 登陆方式转换
+    checkLogin(num) {
+      switch (num) {
+        case 1:
+          this.formMethod = 'weixin'
+          break
+        case 2:
+          this.formMethod = 'phone'
+          break
+        case 3:
+          this.formMethod = 'normal'
+          break
+      }
     },
   },
-  checkLogin() {},
 }
 </script>
 
@@ -299,7 +327,8 @@ export default {
     height: 60px;
     margin-top: 5px;
     border: 0;
-
+    position: relative;
+    z-index: 99;
     &:hover {
       opacity: 0.9;
     }
@@ -454,6 +483,35 @@ export default {
     right: 0;
     height: 100%;
     width: 200px;
+  }
+  .ewm-box {
+    width: 250px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    position: relative;
+    img {
+      width: 150px;
+      height: 150pxpx;
+    }
+  }
+  .ewm-box::before {
+    content: '请使用微信扫描二维码登录';
+    display: block;
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+  }
+  .ewm_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    height: 317px;
   }
 }
 </style>

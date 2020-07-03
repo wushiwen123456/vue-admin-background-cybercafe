@@ -9,6 +9,7 @@
             class="fold-unfold"
             @click="handleCollapse"
           ></i>
+          <logo style="margin-left: 25px;" />
         </div>
       </el-col>
       <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
@@ -44,7 +45,7 @@ import {
   FullScreenBar,
   ErrorLog,
 } from '@/layouts/components'
-
+import Logo from '@/layouts/components/Logo'
 export default {
   name: 'NavBar',
   components: {
@@ -53,6 +54,7 @@ export default {
     ErrorLog,
     FullScreenBar,
     // ThemeBar,
+    Logo,
   },
   data() {
     return {

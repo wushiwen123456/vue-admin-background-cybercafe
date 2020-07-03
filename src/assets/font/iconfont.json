@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1025053",
+      "name": "键盘",
+      "font_class": "jianpan",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "1368603",
+      "name": "phone",
+      "font_class": "phone",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "12215310",
+      "name": "weixin",
+      "font_class": "weixin",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
       "icon_id": "3092315",
       "name": "图表 上升趋势",
       "font_class": "tubiaoshangshengqushi",

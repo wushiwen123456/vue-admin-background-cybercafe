@@ -1,10 +1,10 @@
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1592548426011'); /* IE9 */
-  src: url('iconfont.eot?t=1592548426011#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAMwAAsAAAAAByAAAALiAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCCfgqBcIFoATYCJAMMCwgABCAFhG0HVRtFBhHVk2Nkf0jeNLajekSuBFqY2bSgVW78YXsGHTELNsj32cUhW2ajZ4KI1srqmXkAVIAOmBSiegUM6h2wjArLjVDswkIfMuEmkUaU4AWPMrgdNaQoYC0Arqbt3v5DF2YV9FT3EwtddX1lr6Vc2GyoRoPRgEPO7KqxBl6LLXDICbVlXmqR9P4ATP3XkRKQzH2ey+lNO7t73vpAOa29nx/1AowDCmxPjCIroES5RXYRd+IiHkMAZ8IlkKKS+yfhiAGtEkBGh5wUjoUMBmPUHRHsGw4aZJ/gqDaUBfai78tfJkdQ2GnQxrq7MCLv93/S8zaPE2jnCwHGMdBAAjAgLY2VOhoxeI1zxRCBfc0S+Mn2z/F/PAQDKATEHtTrCkCMYlZ3pKWazErW3XG3BsC+uZsq0Apxvi4RJIox39a9yOXrqOXmTTbNxaW35e/UedPXHNc2Bbjm3xMXYfsJm67fhCwW7tQI+nsYn1RVrccPlX2vGcp/HoTz+OGc6B/JNS8eHpa12LmvZzYEVX7UQZFobYLUvQIKV4nL8GPssfHguGU1ksDaZDb9aOe2Yd1COf1DzUe2zh/9G17xn6/t5o4uBoDPzZTLHgO86ogCQ/tbtcAB4+uRVxtXQzVhTBMFKCvA2Y9jQwlv38Y7/G6/ITjiNyLhQNirxByJyEjDJsAOF5JgjyO5cCZe6XEXfIzRiHEC4qxIEDw9Q+HOG2g8fSIN+xV2+PsPezzTcKal/QtdiAoPyxBKRgPqC4JOgyV+Xsb9D+jmTlJeH0lekKaQhzIryvUrHJDm2DK9u4rZgqXUw6X0HHZdgpFSRM2ZZx7XeW6b3pTp1IulEEpGA9QXCDoNlo/mZeXzD+jmTlKHqKf8gjSFyUEpUwDIK8sAEt3LK9O7qzBbYCn14FIKYYcrCYzN8yJqzvgRpXEtV4ZZqCVb39Z/3zHAGbpIp0SLQT+rINPk5eAYgc63WXjDfoPxk8ZikJ5bCAAA') format('woff2'),
-  url('iconfont.woff?t=1592548426011') format('woff'),
-  url('iconfont.ttf?t=1592548426011') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
-  url('iconfont.svg?t=1592548426011#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1593514953790'); /* IE9 */
+  src: url('iconfont.eot?t=1593514953790#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAVMAAsAAAAACxQAAAT9AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDQAqIeIdOATYCJAMYCw4ABCAFhG0HcBuUCciemrwsJpSysCwAFpBQjlg8/P9l3jd/0htoztqCpGEFXErrx9dTRYINLBSBVrdFYH4+L3s/cAFlC+K0roRMrZ0s7RN0kxbmNCNwpCPUAP8rQsW2lJaTAipz8hNy+skLPPz/36uaSaGAzWvfApITpffeH/NmjNWxBuUUaNA83lOgvYFCXSItWF27iGdxoZqQAXidALqZcoQWop/foIvAzgsgdoosFbqeOCLGGZgQBdyaA7oCEpMNYNcBXBq/H//gHgxAhkzA3rS6dmPAeY2pT+DSf0lqkkAqL4vbXSABJSAHcQLm9zQstWToHPT2pnCgGwOD1ZiaxhuvtxP//+NYxuUeIcdng4DBkZ9/XrQD03uxfbG/DdQYyRGgpsGRgZoXRwL1cY42UJ8Q10+4vcSFUyCqAPFE7aVsD4rvi6BeQZ09GrGEHstqcJwotty/H/vgQdyjRwkPHzYKNd6k7r90/34yv2QJQopZjhuc1oaZmbhrYMJGgGocw8GyMcdAHag9E2bBVePyscJ0HVfyKkNL9NDsbIuw/rg+JZ/wXnnKiF56snF6s7YwuxWRim3PzBadWEyLItiMzPzVqZy0ZWibYuvg5ngVEI6HdPpFu3mo9GBu7OfhAn+qtxKhY+KHtkibB7cqtsUq5jKqktDuzxo6NCcu/v9RNqjx1zBvxVqg3KchtPSkyA1ulrbwfG781yw3qJ07HZrVK4hrMtGxBa5tOmWE2pAHWEugxFIaGtfJI4ckmI+CjhG/fhHHOdHUY1fJmc7fC9mAP3uOX1NCiQpvpJf+e7aqlOkYWmasaJmKoeTQKqtKJeMbQyunVlhnxuZpa9og2GGdKdAuRqm5Ir/OkOTdQhMrQ9MrvsVEGWXIeuVMhouVc6L9rp5MmdKkZLqHNm4AxxR6erUHB1zZ6LQRuhTtMxM0Tku3NVROqw6pSioo2hGiVIki+DIZGajpRvwdTy06bX4a5KtqX7q529pragps5zKsPvKc/0yzSk6OfsaqryessLLJCa8UzRvxxvogbji/UPMoHrDyXNpNYjmzvSWoAk32ohyUSzpegfTe5y1eTBd+8c9IVIZWBlaCRoTBlVLQMtASND0MPMA/0z2oBqbUPrny6tfWU+7V1K5fj9xHqvYHBMoG7vpKUfSa9g80wb6yOiXtoIBzN3Z2t29rvH5dtJH1PfTlgMDI82TfwPXr0ApQnB7wIICiBJ8BKKT92G4A0idWNbBy8p8Gjw66vzLUAr8y/Obe8mIReIXkC3l+/gw2ILVwqgsp2/KvxBLt+Xt1yafyttsMfDED5/WyU7w87GVZOJZ6IoGh40CGZgIJw9qc2x2hDc8T2jFCoJuDmLt7aKnWgHIWwLQeBIi6XYBRdQpw6m6YCfsLIOn6DBT1wIETH1qP5IlRxEVUk5qSgVoTOjnCpkilfXPyC1mZr8ZuyXB9UJw4LVw6u/oH74gpLuOKpN5apbUmmtUS4C16G/m+YFgtLunpzK5Nw7O5Sz7UoZleEUBfhBhRpYgBZaugIjrBTG3zVD/w8y+IJeNTxTGrfvw/kFjCOThy48w1hflO51SrtmVmjZxlpZb0mFD+baIIoGiSJT7vE6gSPslFdKmZwhw9oTMuZK38tPqsfgyW8h7oxh7VHhjCEYFIRCEa6K0ilUPx+FZloTC1G/Kc0uFJWqc5qiS2ypYyUSTK9IQzApRSsvRCMAYAAAAA') format('woff2'),
+  url('iconfont.woff?t=1593514953790') format('woff'),
+  url('iconfont.ttf?t=1593514953790') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1593514953790#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -13,6 +13,18 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-jianpan:before {
+  content: "\e608";
+}
+
+.icon-phone:before {
+  content: "\e611";
+}
+
+.icon-weixin:before {
+  content: "\e635";
 }
 
 .icon-tubiaoshangshengqushi:before {

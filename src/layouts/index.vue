@@ -40,7 +40,7 @@
       <div class="vab-main" :class="collapse ? 'is-collapse-main' : ''">
         <div :class="header === 'fixed' ? 'fixed-header' : ''">
           <nav-bar></nav-bar>
-          <tags-bar v-if="tagsBar === 'true' || tagsBar === true" />
+          <!-- <tags-bar v-if="tagsBar === 'true' || tagsBar === true" /> -->
         </div>
         <app-main></app-main>
       </div>
@@ -130,7 +130,7 @@ export default {
     position: relative;
 
     &.fixed {
-      padding-top: 96px;
+      padding-top: 45px;
     }
 
     &.fixed.no-tags-bar {
@@ -183,7 +183,7 @@ export default {
     }
 
     &.fixed {
-      padding-top: 96px;
+      padding-top: 45px;
     }
 
     &.fixed.no-tags-bar {
@@ -224,7 +224,7 @@ export default {
 
         .app-main-container {
           width: calc(100% - 30px);
-          min-height: calc(100vh - 127px);
+          min-height: calc(100vh - 150px);
           margin: 15px auto;
           border-radius: $base-border-radius;
         }

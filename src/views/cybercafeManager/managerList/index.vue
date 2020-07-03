@@ -8,9 +8,6 @@
         <el-button icon="el-icon-folder-add" type="primary" @click="handleRules"
           >分配规则
         </el-button>
-        <!-- <el-button icon="el-icon-delete" type="danger" @click="handleDelete"
-          >删除
-        </el-button> -->
         <el-button
           type="primary"
           icon="el-icon-folder-opened "
@@ -20,7 +17,7 @@
         <el-button
           type="primary"
           icon="el-icon-document-copy"
-          @click="testALert"
+          @click="moveGroup"
           >移动分组</el-button
         >
         <!-- <el-button type="primary" @click="testConfirm">baseConfirm</el-button> -->
@@ -95,7 +92,6 @@
       </el-table-column>
 
       <el-table-column label="网吧名称" prop="name"></el-table-column>
-      <!-- <el-table-column label="网吧地址" prop="pageViews"> </el-table-column> -->
       <el-table-column label="所属分组" prop="groupingName"></el-table-column>
       <el-table-column label="防御">
         <template slot-scope="scope">
@@ -128,12 +124,6 @@
           </el-tag>
         </template>
       </el-table-column>
-      <!-- <el-table-column
-        label="时间"
-        prop="datetime"
-        width="200"
-        sortable
-      ></el-table-column> -->
       <el-table-column label="操作" width="280px" fixed="right">
         <template slot-scope="scope">
           <el-button
@@ -152,11 +142,7 @@
             >解绑</el-button
           >
 
-          <el-button
-            type="warning"
-            size="mini"
-            icon="el-icon-folder-delete"
-            @click="handleDelete(scope.row)"
+          <el-button type="warning" size="mini" icon="el-icon-s-shop"
             >续费</el-button
           >
         </template>
@@ -172,23 +158,29 @@
       @current-change="handleCurrentChange"
       @size-change="handleSizeChange"
     ></el-pagination>
-    <table-edit ref="edit"></table-edit>
-    <unbound ref="unbound" />
-    <rules ref="rules" />
+    <move-group ref="moves" @fetchData="fetchData" />
+    <table-edit ref="edit" @fetchData="fetchData" />
+    <unbound ref="unbound" @fetchData="fetchData" />
+    <rules ref="rules" @fetchData="fetchData" />
+    <table-add ref="add" @fetchData="fetchData" />
   </div>
 </template>
 
 <script>
-import { getList, doDelete } from '@/api/table'
+import { getList, ruleDetail } from '@/api/table'
 import TableEdit from './components/TableEdit'
 import Unbound from './components/Unbound'
 import Rules from './components/Rules'
+import TableAdd from './components/TableAdd'
+import moveGroup from './components/moveGroup'
 export default {
   name: 'ComprehensiveTable',
   components: {
     TableEdit,
     Unbound,
     Rules,
+    TableAdd,
+    moveGroup,
   },
   filters: {
     statusFilter(status) {
@@ -252,35 +244,14 @@ export default {
       this.selectRows = val
     },
     handleAdd() {
-      this.$refs['edit'].showEdit()
+      this.$refs['add'].showEdit()
     },
     handleEdit(row) {
       this.$refs['edit'].showEdit(row)
     },
     handleDelete(row) {
-      // if (row.id) {
-      //   this.$baseConfirm('你确定要删除当前项吗', null, () => {
-      //     doDelete({ ids: row.id }).then((res) => {
-      //       this.$baseMessage(res.msg, 'success')
-      //       this.fetchData()
-      //     })
-      //   })
-      // } else {
-      //   if (this.selectRows.length > 0) {
-      //     const ids = this.selectRows.map((item) => item.id).join()
-      //     this.$baseConfirm('你确定要删除选中项吗', null, () => {
-      //       doDelete({ ids: ids }).then((res) => {
-      //         this.$baseMessage(res.msg, 'success')
-      //         this.fetchData()
-      //       })
-      //     })
-      //   } else {
-      //     this.$baseMessage('未选中任何行', 'error')
-      //     return false
-      //   }
-      // }
       if (row.id) {
-        this.$refs['unbound'].showEdit(row)
+        this.$refs['unbound'].showEdit(row, this.total)
       }
     },
     // 分配规则
@@ -289,6 +260,15 @@ export default {
         this.$refs['rules'].showEdit(row)
       } else if (this.selectRows.length > 0) {
         this.$refs['rules'].showEdit(this.selectRows)
+      } else {
+        this.$baseMessage('未选中任何行', 'error')
+        return false
+      }
+    },
+    // 移动分组
+    moveGroup() {
+      if (this.selectRows.length > 0) {
+        this.$refs['moves'].showEdit(this.selectRows)
       } else {
         this.$baseMessage('未选中任何行', 'error')
         return false
@@ -322,7 +302,7 @@ export default {
       })
     },
     testMessage() {
-      this.$baseMessage('test1', 'success')
+      this.$router.push({ path: '/manager/groupManager' })
     },
     testALert() {
       this.$baseAlert('11')
@@ -356,12 +336,6 @@ export default {
   background: $base-content-content !important;
   color: $base-content-color;
   padding-top: 15px;
-}
-.left-panel {
-  padding-left: 15px;
-}
-.right-panel {
-  padding-right: 15px;
 }
 .el-button {
   background: transparent;
