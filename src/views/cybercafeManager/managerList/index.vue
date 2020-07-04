@@ -8,12 +8,15 @@
         <el-button icon="el-icon-folder-add" type="primary" @click="handleRules"
           >分配规则
         </el-button>
+<<<<<<< HEAD
         <el-button
           type="primary"
           icon="el-icon-folder-opened "
           @click="testMessage"
           >分组管理</el-button
         >
+=======
+>>>>>>> managerList
         <el-button
           type="primary"
           icon="el-icon-document-copy"
@@ -24,8 +27,24 @@
         <el-button type="primary" icon="el-icon-refresh" @click="refresh">
           刷新
         </el-button>
+        <el-button icon="el-icon-tickets" type="primary" @click="goInfo">
+          <span class="tipsButton">*网吧规则介绍说明</span>
+        </el-button>
       </vab-query-form-left-panel>
       <vab-query-form-right-panel>
+        <el-select
+          v-model="queryForm.grouping_id"
+          placeholder="网吧列表"
+          @change="fetchData"
+        >
+          <el-option
+            v-for="item in groupList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
         <el-form
           ref="form"
           :model="queryForm"
@@ -33,14 +52,14 @@
           @submit.native.prevent
         >
           <el-form-item>
-            <el-input v-model="queryForm.title" placeholder="标题" />
+            <el-input v-model="queryForm.name" placeholder="标题" />
           </el-form-item>
           <el-form-item>
             <el-button
               icon="el-icon-search"
               type="primary"
               native-type="submit"
-              @click="handleQuery"
+              @click="fetchData"
               >查询
             </el-button>
           </el-form-item>
@@ -52,6 +71,7 @@
       ref="tableSort"
       v-loading="listLoading"
       :data="list"
+      fit
       :element-loading-text="elementLoadingText"
       height="650"
       @selection-change="setSelectRows"
@@ -117,12 +137,16 @@
           </el-badge>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="安装/在线">
-        <template slot-scope="scope">
+      <el-table-column
+        class-name="status-col"
+        prop="register_num"
+        label="安装/在线"
+      >
+        <!-- <template slot-scope="scope">
           <el-tag type="success" size="mini">
             <span style="padding: 0 15px;"> {{ scope.row.register_num }}</span>
           </el-tag>
-        </template>
+        </template> -->
       </el-table-column>
       <el-table-column label="操作" width="280px" fixed="right">
         <template slot-scope="scope">
@@ -161,18 +185,37 @@
     <move-group ref="moves" @fetchData="fetchData" />
     <table-edit ref="edit" @fetchData="fetchData" />
     <unbound ref="unbound" @fetchData="fetchData" />
+<<<<<<< HEAD
     <rules ref="rules" @fetchData="fetchData" />
     <table-add ref="add" @fetchData="fetchData" />
+=======
+    <rules ref="rules" @formNetworkRules="formNetworkRules" />
+    <table-add ref="add" @fetchData="fetchData" />
+    <info ref="info" />
+>>>>>>> managerList
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 import { getList, ruleDetail } from '@/api/table'
+=======
+import {
+  getList,
+  ruleDetail,
+  formNetworkRules,
+  getgroupOptions,
+} from '@/api/table'
+>>>>>>> managerList
 import TableEdit from './components/TableEdit'
 import Unbound from './components/Unbound'
 import Rules from './components/Rules'
 import TableAdd from './components/TableAdd'
 import moveGroup from './components/moveGroup'
+<<<<<<< HEAD
+=======
+import Info from './components/Info'
+>>>>>>> managerList
 export default {
   name: 'ComprehensiveTable',
   components: {
@@ -181,6 +224,10 @@ export default {
     Rules,
     TableAdd,
     moveGroup,
+<<<<<<< HEAD
+=======
+    Info,
+>>>>>>> managerList
   },
   filters: {
     statusFilter(status) {
@@ -206,8 +253,10 @@ export default {
       queryForm: {
         page: 1,
         limit: 20,
-        title: '',
+        name: '',
+        grouping_id: '',
       },
+      groupList: [],
     }
   },
   computed: {
@@ -218,7 +267,10 @@ export default {
     },
   },
   created() {
+    // 网吧列表
     this.fetchData()
+    // 分组列表
+    this.getgroupOptions()
   },
 
   beforeDestroy() {},
@@ -274,6 +326,27 @@ export default {
         return false
       }
     },
+<<<<<<< HEAD
+=======
+    // 提交规则后的处理
+    // 提交数据
+    formNetworkRules({ id, rule_id }) {
+      formNetworkRules({ id, rule_id }).then((res) => {
+        if (res.code == 200) {
+          this.$baseMessage(res.msg, 'success')
+          this.$refs['rules'].close()
+          this.fetchData()
+          this.dialogFormVisible = false
+        } else {
+          this.$baseMessage(res.msg, 'error')
+        }
+      })
+    },
+    // 网吧规则介绍说明弹出
+    goInfo() {
+      this.$refs['info'].showEdit()
+    },
+>>>>>>> managerList
     handleSizeChange(val) {
       this.queryForm.limit = val
       this.fetchData()
@@ -286,6 +359,7 @@ export default {
       this.queryForm.page = 1
       this.fetchData()
     },
+    // 获取网吧列表
     fetchData() {
       this.listLoading = true
       getList(this.queryForm).then((res) => {
@@ -299,6 +373,16 @@ export default {
         setTimeout(() => {
           this.listLoading = false
         }, 500)
+      })
+    },
+    // 获取分组列表
+    getgroupOptions() {
+      getgroupOptions().then((res) => {
+        if (res.code == 200) {
+          this.groupList = res.data
+        } else {
+          this.$baseMessage(res.msg, 'error')
+        }
       })
     },
     testMessage() {
@@ -340,5 +424,13 @@ export default {
 .el-button {
   background: transparent;
   color: rgba(255, 255, 255, 0.7);
+}
+.tipsButton {
+}
+.rules-info {
+  margin-left: 20px !important;
+}
+.el-select {
+  margin-right: 20px;
 }
 </style>

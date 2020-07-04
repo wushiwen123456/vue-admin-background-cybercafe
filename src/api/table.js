@@ -36,6 +36,10 @@ export function unbound(data) {
 }
 // 移动分组
 export function moveGroup(data) {
+<<<<<<< HEAD
+  return request({
+    url: '/internetbar/move',
+=======
   return request({
     url: '/internetbar/move',
     method: 'post',
@@ -43,6 +47,34 @@ export function moveGroup(data) {
   })
 }
 
+// 获取网吧规则信息(id)
+export function ruleDetail(data) {
+  return request({
+    url: '/Internetbar/tree',
+>>>>>>> managerList
+    method: 'post',
+    data,
+  })
+}
+
+<<<<<<< HEAD
+=======
+// 获取网吧规则信息(全部)
+export function allNetworkRules() {
+  return request({
+    url: '/RuleGrouping/treeform',
+    method: 'get',
+  })
+}
+// 提交网吧规则
+export function formNetworkRules(data) {
+  return request({
+    url: '/Internetbar/giveRule',
+    method: 'post',
+    data,
+  })
+}
+>>>>>>> managerList
 /**
  * 网吧分组
  */
@@ -81,15 +113,23 @@ export function delGroup(data) {
   })
 }
 
+<<<<<<< HEAD
 // 获取网吧规则信息(id)
 export function ruleDetail(data) {
   return request({
     url: '/Internetbar/tree',
+=======
+// 分组规则编辑（id）
+export function groupRules(data) {
+  return request({
+    url: '/InternetbarGrouping/tree',
+>>>>>>> managerList
     method: 'post',
     data,
   })
 }
 
+<<<<<<< HEAD
 // 获取网吧规则信息(全部)
 export function allNetworkRules() {
   return request({
@@ -102,14 +142,87 @@ export function allNetworkRules() {
 export function formNetworkRules(data) {
   return request({
     url: '/Internetbar/giveRule',
+=======
+// 分组规则保存
+export function groupRulesEdit(data) {
+  return request({
+    url: '/InternetbarGrouping/treeEdit',
     method: 'post',
     data,
   })
 }
+
+// 分组一件追加/一键同步
+export function groupSync(data) {
+  return request({
+    url: '/InternetbarGrouping/fast',
+>>>>>>> managerList
+    method: 'post',
+    data,
+  })
+}
+<<<<<<< HEAD
 // 获取所有的规则列表
 export function ruleList() {
   return request({
     url: '/rule/list',
     method: 'get',
+=======
+
+/**
+ * 规则管理
+ */
+// 规则分组列表
+export function rulesGroupList() {
+  return request({
+    url: '/RuleGrouping/list',
+    method: 'get',
+  })
+}
+
+// 规则列表
+export function ruleList(data) {
+  console.log(data)
+  return request({
+    url: 'Rule/list',
+    method: 'get',
+    params: data,
+  })
+}
+
+// 规则列表添加
+export function ruleGroupListAdd(data) {
+  return request({
+    url: '/ruleGrouping/add',
+    method: 'post',
+    data,
+  })
+}
+
+// 规则列表编辑
+export function ruleGroupListEdit(data) {
+  return request({
+    url: '/ruleGrouping/edit',
+    method: 'post',
+    data,
+  })
+}
+
+// 删除分组
+export function ruleGroupListRemove(data) {
+  return request({
+    url: '/ruleGrouping/del',
+    method: 'post',
+    data,
+  })
+}
+
+// 移动规则分组
+export function moveRulesToGroup(data) {
+  return request({
+    url: '/rule/move',
+    method: 'post',
+    data,
+>>>>>>> managerList
   })
 }

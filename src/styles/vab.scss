@@ -454,3 +454,30 @@ html body .el-message-box__footer {
 .el-tree-node:focus > .el-tree-node__content {
   background-color: $base-content-bg;
 }
+<<<<<<< HEAD
+=======
+.el-table__fixed::before,
+.el-table__fixed-right::before {
+  background: transparent;
+}
+.text-cut {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.el-textarea__inner {
+  background: $base-content-content;
+  color: $base-content-color;
+  resize: none;
+  min-height: 50px !important;
+}
+.el-tabs__item {
+  color: $base-content-color;
+}
+.el-tabs__nav-wrap::after {
+  background-color: $base-content-bg;
+}
+.el-table--enable-row-hover .el-table__body tr:hover > td {
+  background-color: $base-content-bg;
+}
+>>>>>>> managerList

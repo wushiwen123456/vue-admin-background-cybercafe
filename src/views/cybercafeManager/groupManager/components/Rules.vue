@@ -128,46 +128,6 @@
           </div>
         </el-card>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="24"
-        :md="widthNumber"
-        :lg="widthNumber"
-        :xl="widthNumber"
-      >
-        <el-card class="box-card" shadow="never">
-          <div slot="header">
-            <span class="noRules-header yello-color">当前分组规则</span>
-          </div>
-          <div class="rule-title margin-bottom">
-            <span>规则标题</span>
-            <el-button type="text" size="mini" @click="handleSync">
-              <b class="sync">
-                <i class="el-icon-refresh"></i>
-                同步
-              </b>
-            </el-button>
-          </div>
-          <el-tree
-            ref="tree2"
-            class="filter-tree"
-            node-key="tree2"
-            default-expand-all
-            :data="data4"
-            :props="defaultProps"
-            :filter-node-method="filterNode"
-          >
-            <span slot-scope="{ node }" class="custom-tree-node">
-              <span>{{ node.label }}</span>
-            </span>
-          </el-tree>
-          <div class="tips">
-            注：当前分组的默认规则，如需改变默认规则，请到--
-            <span class="goManager" @click="goGroupManager">分组管理</span>
-            --界面进行更改
-          </div>
-        </el-card>
-      </el-col>
     </el-row>
     <div slot="footer" class="dialog-footer">
       <el-button @click="close">取 消</el-button>
@@ -177,12 +137,7 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import { ruleDetail, allNetworkRules, formNetworkRules } from '@/api/table'
-=======
-import { ruleDetail, allNetworkRules, groupRules } from '@/api/table'
->>>>>>> managerList
-
+import { groupRules, allNetworkRules } from '@/api/table'
 export default {
   name: 'Rules',
   data() {
@@ -199,12 +154,7 @@ export default {
         label: 'name',
       },
       rows: [],
-<<<<<<< HEAD
-=======
       singerEdit: '',
-      data4: [],
-      groupRulesList: [],
->>>>>>> managerList
     }
   },
   computed: {
@@ -242,11 +192,11 @@ export default {
     },
     // 计算宽度
     dialogWidth() {
-      return this.singerEdit ? '900px' : '1400px'
+      return '900px'
     },
     // 计算布局
     widthNumber() {
-      return this.singerEdit ? 12 : 8
+      return 12
     },
   },
   watch: {
@@ -268,33 +218,15 @@ export default {
       if (row instanceof Array) {
         this.title = '*分配规则'
         this.allNetworkRules()
-<<<<<<< HEAD
-      } else {
-        this.title = '[' + row.name + ']' + ' ' + '分配规则'
-        this.allNetworkRules(row.id)
-=======
         this.singerEdit = true
       } else {
         this.title = '[' + row.name + ']' + ' ' + '分配规则'
         this.allNetworkRules(row.id)
-        const grouping_id = row.grouping_id
-        // 请求分组规则
-        this.getGroupRules(grouping_id)
         this.singerEdit = false
->>>>>>> managerList
       }
       this.rows = row
       this.dialogFormVisible = true
     },
-<<<<<<< HEAD
-=======
-    getGroupRules(id) {
-      groupRules({ id }).then((res) => {
-        this.groupRulesList = res.data
-        this.data4 = this.filterData(this.groupRulesList)
-      })
-    },
->>>>>>> managerList
     // 获取所有规则信息
     allNetworkRules(id) {
       if (!id) {
@@ -307,7 +239,7 @@ export default {
           }
         })
       } else {
-        ruleDetail({ id }).then((res) => {
+        groupRules({ id }).then((res) => {
           this.data2 = res.data
         })
       }
@@ -336,20 +268,7 @@ export default {
         id = this.rows.id
       }
       const rule_id = this.dealRightData(this.data3).join(',')
-<<<<<<< HEAD
-      // 提交数据
-      formNetworkRules({ id, rule_id }).then((res) => {
-        if (res.code == 200) {
-          this.$baseMessage(res.msg, 'success')
-          this.$emit('fetchData')
-          this.dialogFormVisible = false
-        } else {
-          this.$baseMessage(res.msg, 'error')
-        }
-      })
-=======
-      this.$emit('formNetworkRules', { id, rule_id })
->>>>>>> managerList
+      this.$emit('groupRulesEdit', { id, rule_id })
     },
     // 对提交的数据进行处理
     dealRightData(data3) {
@@ -364,14 +283,6 @@ export default {
         }
       }
       return arr
-<<<<<<< HEAD
-=======
-    },
-    // 点击分组的同步按钮
-    handleSync() {
-      if (this.data4.length == 0) return
-      this.data2 = this.deepFilterList(this.groupRulesList)
->>>>>>> managerList
     },
     // 对节点进行过滤
     filterNode(value, data) {
@@ -386,7 +297,7 @@ export default {
       // 渲染当前节点下面的所有子节点
       this.hanldleStatus(item, status)
       // 判断是否改变属性
-      // this.isChangeStatus(this.data2)
+      this.isChangeStatus(this.data2)
     },
 
     // 点击开启全部触发
@@ -452,18 +363,10 @@ export default {
       }
     },
     // 对规则进行筛选，选出已选数组
-<<<<<<< HEAD
-    filterData(list) {
-      const dataList = []
-      console.log(list)
-      list.forEach((item2) => {
-        let item = this.deepFilterList(item2)
-=======
     filterData(list2) {
       const dataList = []
       const list = this.deepFilterList(list2)
       list.forEach((item) => {
->>>>>>> managerList
         const linshi = []
         if (item.isOpen) {
           //父级为true
@@ -586,8 +489,6 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-<<<<<<< HEAD
-=======
 .yello-color {
   color: $base-color-yellow;
 }
@@ -603,5 +504,4 @@ export default {
   color: $base-color-default;
   cursor: pointer;
 }
->>>>>>> managerList
 </style>

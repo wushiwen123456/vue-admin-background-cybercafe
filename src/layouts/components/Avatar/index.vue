@@ -46,6 +46,7 @@ export default {
     logout() {
       this.$baseConfirm('您确定要退出' + this.$baseTitle + '吗?', null, () => {
         const fullPath = this.$route.fullPath
+<<<<<<< HEAD
         // this.$store.dispatch('user/logout').then(() => {
         //   this.$router.push(`/login?redirect=${fullPath}`)
         // })
@@ -53,6 +54,15 @@ export default {
         // 测试清空缓存
         window.localStorage.clear('VUE-TABLE')
         this.$router.push(`/login`)
+=======
+        this.$store.dispatch('user/logout').then(() => {
+          this.$router.push(`/login?redirect=${fullPath}`)
+        })
+
+        // // 测试清空缓存
+        // window.localStorage.clear('VUE-TABLE')
+        // this.$router.push(`/login`)
+>>>>>>> managerList
       })
     },
   },

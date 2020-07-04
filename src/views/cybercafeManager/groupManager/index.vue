@@ -5,6 +5,7 @@
         <el-button icon="el-icon-folder-add" type="primary" @click="addGroup"
           >添加分组
         </el-button>
+<<<<<<< HEAD
         <!-- <el-button icon="el-icon-delete" type="danger" @click="handleDelete"
           >删除
         </el-button> -->
@@ -24,6 +25,29 @@
         <el-button type="primary" icon="el-icon-refresh" @click="refresh">
           刷新
         </el-button>
+=======
+        <el-button
+          type="primary"
+          icon="el-icon-folder-opened"
+          @click="handleRules"
+          >分配规则</el-button
+        >
+        <el-button type="primary" icon="el-icon-delete" @click="handleDelete"
+          >删除分组</el-button
+        >
+        <el-button type="primary" icon="el-icon-refresh-left" @click="refresh">
+          刷新
+        </el-button>
+        <el-button type="primary" icon="el-icon-tickets" @click="goInfo">
+          * 分组规则介绍说明
+        </el-button>
+        <el-button type="primary" icon="el-icon-refresh" @click="handleSync">
+          一键同步
+        </el-button>
+        <el-button type="primary" icon="el-icon-sort" @click="handleAdd">
+          一件追加
+        </el-button>
+>>>>>>> managerList
       </vab-query-form-left-panel>
       <!-- <vab-query-form-right-panel>
         <el-form
@@ -90,6 +114,7 @@
           {{ formatDate(scope.row.add_time) }}
         </template>
       </el-table-column>
+<<<<<<< HEAD
       <el-table-column label="操作" width="280px" fixed="right" min-width="150">
         <template slot-scope="scope">
           <el-button
@@ -115,6 +140,49 @@
             @click="handleDelete(scope.row)"
             >匹配规则</el-button
           >
+=======
+      <el-table-column label="操作" fixed="right" width="560">
+        <template slot-scope="scope">
+          <div class="flex-row">
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-edit"
+              @click="handleEdit(scope.row)"
+              >编辑</el-button
+            >
+
+            <el-button
+              type="danger"
+              size="mini"
+              icon="el-icon-folder-delete"
+              @click="handleDelete(scope.row)"
+              >删除</el-button
+            >
+
+            <el-button
+              type="warning"
+              size="mini"
+              icon="el-icon-eleme"
+              @click="handleRules(scope.row)"
+              >分配规则</el-button
+            >
+            <el-button
+              type="danger"
+              size="mini"
+              icon="el-icon-sort"
+              @click="handleAdd(scope.row)"
+              >一键追加</el-button
+            >
+            <el-button
+              type="danger"
+              size="mini"
+              icon="el-icon-refresh"
+              @click="handleSync(scope.row)"
+              >一键同步</el-button
+            >
+          </div>
+>>>>>>> managerList
         </template>
       </el-table-column>
     </el-table>
@@ -139,16 +207,42 @@
         <el-button type="primary" @click="save">确 定</el-button>
       </div>
     </el-dialog>
+<<<<<<< HEAD
+=======
+    <rules ref="rules" @groupRulesEdit="groupRulesEdit" />
+    <info ref="info" />
+>>>>>>> managerList
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 import { getgroupOptions, delGroup, addGroup, editGroup } from '@/api/table'
 import { formatDate } from '@/utils/formatDate'
 
 export default {
   name: 'GroupManager',
   components: {},
+=======
+import {
+  getgroupOptions,
+  delGroup,
+  addGroup,
+  editGroup,
+  groupRulesEdit,
+  groupSync,
+} from '@/api/table'
+import { formatDate } from '@/utils/formatDate'
+import Rules from './components/Rules'
+import Info from './components/Info'
+
+export default {
+  name: 'GroupManager',
+  components: {
+    Rules,
+    Info,
+  },
+>>>>>>> managerList
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -254,6 +348,109 @@ export default {
         return false
       }
     },
+<<<<<<< HEAD
+=======
+    // 保存规则
+    groupRulesEdit(data) {
+      groupRulesEdit(data).then((res) => {
+        if (res.code == 200) {
+          this.$baseMessage(res.msg, 'success')
+          this.$refs['rules'].close()
+          groupSync({ id: data.id, type: '1' }).then((res) => {
+            if (res.code == 200) {
+              this.fetchData()
+              this.$baseNotify(
+                `修改成功，已为您默认执行“一键追加”操作，如需同步，请手动点击“一键同步”，详情请点击“分组规则介绍说明”`
+              )
+              this.dialogFormVisible = false
+            }
+          })
+        } else {
+          this.$baseMessage(res.msg, 'error')
+        }
+      })
+    },
+    // 一键同步
+    handleSync(row) {
+      if (row.id) {
+        this.$baseConfirm(
+          '确定要进行一键同步么，一键同步会丢失当前网吧所有规则，替换为当前分组的默认规则',
+          null,
+          () => {
+            groupSync({ id: row.id, type: '0' }).then((res) => {
+              if (res.code == 200) {
+                this.$baseMessage(res.msg, 'success')
+                this.fetchData()
+              } else {
+                this.$baseMessage(res.msg, 'error')
+              }
+            })
+          }
+        )
+      } else {
+        if (this.selectRows.length > 0) {
+          const idArr = this.selectRows.map((item) => item.id).join()
+          this.$baseConfirm(
+            '确定要进行一键同步么，一键同步会丢失当前网吧所有规则，替换为当前分组的默认规则',
+            null,
+            () => {
+              groupSync({ id: idArr, type: '0' }).then((res) => {
+                if (res.code == 200) {
+                  this.$baseMessage(res.msg, 'success')
+                  this.fetchData()
+                } else {
+                  this.$baseMessage(res.msg, 'error')
+                }
+              })
+            }
+          )
+        } else {
+          this.$baseMessage('未选中任何行', 'error')
+          return false
+        }
+      }
+    },
+    // 一键追加
+    handleAdd(row) {
+      if (row.id) {
+        this.$baseConfirm(
+          '确定要进行一键追加么，一键追加会保留当前网吧所有规则，在当前网吧规则基础上添加目标分组下的所有规则',
+          null,
+          () => {
+            groupSync({ id: row.id, type: '1' }).then((res) => {
+              if (res.code == 200) {
+                this.$baseMessage(res.msg, 'success')
+                this.fetchData()
+              } else {
+                this.$baseMessage(res.msg, 'error')
+              }
+            })
+          }
+        )
+      } else {
+        if (this.selectRows.length > 0) {
+          const idArr = this.selectRows.map((item) => item.id).join()
+          this.$baseConfirm(
+            '确定要进行一键追加么，一键追加会保留当前网吧所有规则，在当前网吧规则基础上添加目标分组下的所有规则',
+            null,
+            () => {
+              groupSync({ id: idArr, type: '1' }).then((res) => {
+                if (res.code == 200) {
+                  this.$baseMessage(res.msg, 'success')
+                  this.fetchData()
+                } else {
+                  this.$baseMessage(res.msg, 'error')
+                }
+              })
+            }
+          )
+        } else {
+          this.$baseMessage('未选中任何行', 'error')
+          return false
+        }
+      }
+    },
+>>>>>>> managerList
     fetchData() {
       this.listLoading = true
       getgroupOptions().then((res) => {
@@ -325,10 +522,13 @@ export default {
     },
     // 分组编辑
     handleEdit(row) {
+<<<<<<< HEAD
       if (this.selectRows.length > 1) {
         this.$baseMessage('只能选择一个进行编辑', 'error')
         return
       }
+=======
+>>>>>>> managerList
       if (row.is_default == 0) {
         this.$baseMessage('默认分组无法更改', 'warning')
         return
@@ -340,10 +540,16 @@ export default {
       }
       this.dialogFormVisible = true
     },
+<<<<<<< HEAD
     // 删除分组
     removeArr(row) {
       if (row.id) {
       }
+=======
+    // 分组规则介绍打开
+    goInfo() {
+      this.$refs['info'].showEdit()
+>>>>>>> managerList
     },
   },
 }
@@ -358,4 +564,11 @@ export default {
   background: transparent;
   color: rgba(255, 255, 255, 0.7);
 }
+<<<<<<< HEAD
+=======
+.flex-row {
+  display: flex;
+  justify-content: space-between;
+}
+>>>>>>> managerList
 </style>
