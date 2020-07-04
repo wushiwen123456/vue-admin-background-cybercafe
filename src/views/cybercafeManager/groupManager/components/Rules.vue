@@ -128,46 +128,6 @@
           </div>
         </el-card>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="24"
-        :md="widthNumber"
-        :lg="widthNumber"
-        :xl="widthNumber"
-      >
-        <el-card class="box-card" shadow="never">
-          <div slot="header">
-            <span class="noRules-header yello-color">当前分组规则</span>
-          </div>
-          <div class="rule-title margin-bottom">
-            <span>规则标题</span>
-            <el-button type="text" size="mini" @click="handleSync">
-              <b class="sync">
-                <i class="el-icon-refresh"></i>
-                同步
-              </b>
-            </el-button>
-          </div>
-          <el-tree
-            ref="tree2"
-            class="filter-tree"
-            node-key="tree2"
-            default-expand-all
-            :data="data4"
-            :props="defaultProps"
-            :filter-node-method="filterNode"
-          >
-            <span slot-scope="{ node }" class="custom-tree-node">
-              <span>{{ node.label }}</span>
-            </span>
-          </el-tree>
-          <div class="tips">
-            注：当前分组的默认规则，如需改变默认规则，请到--
-            <span class="goManager" @click="goGroupManager">分组管理</span>
-            --界面进行更改
-          </div>
-        </el-card>
-      </el-col>
     </el-row>
     <div slot="footer" class="dialog-footer">
       <el-button @click="close">取 消</el-button>
@@ -177,8 +137,7 @@
 </template>
 
 <script>
-import { ruleDetail, allNetworkRules, groupRules } from '@/api/table'
-
+import { groupRules, allNetworkRules } from '@/api/table'
 export default {
   name: 'Rules',
   data() {
@@ -196,8 +155,6 @@ export default {
       },
       rows: [],
       singerEdit: '',
-      data4: [],
-      groupRulesList: [],
     }
   },
   computed: {
@@ -235,11 +192,11 @@ export default {
     },
     // 计算宽度
     dialogWidth() {
-      return this.singerEdit ? '900px' : '1400px'
+      return '900px'
     },
     // 计算布局
     widthNumber() {
-      return this.singerEdit ? 12 : 8
+      return 12
     },
   },
   watch: {
@@ -265,19 +222,10 @@ export default {
       } else {
         this.title = '[' + row.name + ']' + ' ' + '分配规则'
         this.allNetworkRules(row.id)
-        const grouping_id = row.grouping_id
-        // 请求分组规则
-        this.getGroupRules(grouping_id)
         this.singerEdit = false
       }
       this.rows = row
       this.dialogFormVisible = true
-    },
-    getGroupRules(id) {
-      groupRules({ id }).then((res) => {
-        this.groupRulesList = res.data
-        this.data4 = this.filterData(this.groupRulesList)
-      })
     },
     // 获取所有规则信息
     allNetworkRules(id) {
@@ -291,7 +239,7 @@ export default {
           }
         })
       } else {
-        ruleDetail({ id }).then((res) => {
+        groupRules({ id }).then((res) => {
           this.data2 = res.data
         })
       }
@@ -320,7 +268,7 @@ export default {
         id = this.rows.id
       }
       const rule_id = this.dealRightData(this.data3).join(',')
-      this.$emit('formNetworkRules', { id, rule_id })
+      this.$emit('groupRulesEdit', { id, rule_id })
     },
     // 对提交的数据进行处理
     dealRightData(data3) {
@@ -335,11 +283,6 @@ export default {
         }
       }
       return arr
-    },
-    // 点击分组的同步按钮
-    handleSync() {
-      if (this.data4.length == 0) return
-      this.data2 = this.deepFilterList(this.groupRulesList)
     },
     // 对节点进行过滤
     filterNode(value, data) {

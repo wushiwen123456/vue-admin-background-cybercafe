@@ -63,6 +63,32 @@ const data = [
     ],
   },
   {
+    path: '/rulesManager',
+    component: 'Layout',
+    redirect: 'noRedirect',
+    meta: { title: '规则中心', icon: 'shield-alt' },
+    children: [
+      {
+        path: 'ruleList',
+        name: 'RuleList',
+        component: 'rulesManager/managerList/index',
+        meta: {
+          title: '规则列表',
+          icon: 'layer-group',
+        },
+      },
+      {
+        path: 'ruleGroup',
+        name: 'RuleGroup',
+        component: 'rulesManager/groupManager/index',
+        meta: {
+          title: '规则分组',
+          icon: 'layer-group',
+        },
+      },
+    ],
+  },
+  {
     path: '/userCenter',
     component: 'Layout',
     redirect: 'noRedirect',

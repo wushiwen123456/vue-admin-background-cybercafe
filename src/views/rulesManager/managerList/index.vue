@@ -3,10 +3,7 @@
     <vab-query-form>
       <vab-query-form-left-panel>
         <el-button icon="el-icon-plus" type="primary" @click="handleAdd"
-          >注册
-        </el-button>
-        <el-button icon="el-icon-folder-add" type="primary" @click="handleRules"
-          >分配规则
+          >添加规则
         </el-button>
         <el-button
           type="primary"
@@ -14,18 +11,17 @@
           @click="moveGroup"
           >移动分组</el-button
         >
-        <!-- <el-button type="primary" @click="testConfirm">baseConfirm</el-button> -->
+        <el-button type="primary" icon="el-icon-delete" @click="handleDelete"
+          >删除规则</el-button
+        >
         <el-button type="primary" icon="el-icon-refresh" @click="refresh">
           刷新
-        </el-button>
-        <el-button icon="el-icon-tickets" type="primary" @click="goInfo">
-          <span class="tipsButton">*网吧规则介绍说明</span>
         </el-button>
       </vab-query-form-left-panel>
       <vab-query-form-right-panel>
         <el-select
           v-model="queryForm.grouping_id"
-          placeholder="网吧列表"
+          placeholder="规则分组"
           @change="fetchData"
         >
           <el-option
@@ -61,104 +57,77 @@
     <el-table
       ref="tableSort"
       v-loading="listLoading"
-      :data="list"
       fit
+      :data="list"
       :element-loading-text="elementLoadingText"
       height="650"
       @selection-change="setSelectRows"
       @sort-change="tableSortChange"
     >
-      <el-table-column type="expand">
-        <template slot-scope="scope">
-          <el-form class="demo-table-expand">
-            <el-form-item label="网吧地址">
-              <span>{{ netWorkArea(scope.row) }}</span>
-            </el-form-item>
-            <el-form-item label="到期时间">
-              <span>{{ scope.row.duration + '天' }}</span>
-            </el-form-item>
-            <el-form-item label="网吧账号">
-              <span>{{ scope.row.account }}</span>
-            </el-form-item>
-            <el-form-item label="联系人">
-              <span>{{ scope.row.contacts }}</span>
-            </el-form-item>
-            <el-form-item label="联系电话">
-              <span>{{ scope.row.contacts_phone }}</span>
-            </el-form-item>
-            <el-form-item label="IP信息">
-              <span>{{ scope.row.intranet_ip }}</span>
-            </el-form-item>
-            <el-form-item label="版本信息">
-              <span>{{ scope.row.server_versions || '暂无' }}</span>
-            </el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>
-      <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column label="ID" width="95">
+      <el-table-column type="selection" min-width="55" />
+      <el-table-column label="ID" min-width="95">
         <template slot-scope="scope">
           {{ scope.row.id }}
         </template>
       </el-table-column>
 
-      <el-table-column label="网吧名称" prop="name"></el-table-column>
-      <el-table-column label="所属分组" prop="groupingName"></el-table-column>
-      <el-table-column label="防御">
+      <el-table-column label="规则名称" min-width="150">
+        <template slot-scope="scope">
+          <span :title="scope.row.name" class="text-cut">
+            {{ scope.row.name }}
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column label="规则介绍" min-width="150">
+        <template slot-scope="scope">
+          <span :title="scope.row.introduce" class="text-cut">
+            {{ scope.row.introduce }}
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column label="所属分组" width="120">
+        <template slot-scope="scope">
+          <span :class="{ 'is-default': scope.row.grouping_id == 1 }">{{
+            getGroupName(scope.row.grouping_id)
+          }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="状态" width="120">
         <template slot-scope="scope">
           <el-switch
-            v-model="scope.row.defense"
+            v-model="scope.row.status"
             active-color="#13ce66"
             inactive-color="#ff4949"
-            active-value="1"
-            inactive-value="0"
+            :active-value="0"
+            :inactive-value="1"
           >
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="安全" prop="pageViews">
+      <el-table-column label="版本" min-width="120">
         <template slot-scope="scope">
-          <el-badge :value="2" class="item" type="warning">
-            <el-button
-              class="rules-button"
-              size="small"
-              @click="handleRules(scope.row)"
-              >分配规则</el-button
-            >
-          </el-badge>
+          <el-tag size="medium" type="warning">{{
+            scope.row.versions || '暂无版本'
+          }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        class-name="status-col"
-        prop="register_num"
-        label="安装/在线"
-      >
-        <!-- <template slot-scope="scope">
-          <el-tag type="success" size="mini">
-            <span style="padding: 0 15px;"> {{ scope.row.register_num }}</span>
-          </el-tag>
-        </template> -->
-      </el-table-column>
-      <el-table-column label="操作" width="280px" fixed="right">
+      <el-table-column label="最后更新时间" prop="up_time" min-width="120" />
+      <el-table-column label="操作" min-width="180" fixed="right">
         <template slot-scope="scope">
           <el-button
+            class="left-btn"
             type="primary"
             size="mini"
             icon="el-icon-edit"
             @click="handleEdit(scope.row)"
             >编辑</el-button
           >
-
           <el-button
             type="danger"
             size="mini"
             icon="el-icon-folder-delete"
             @click="handleDelete(scope.row)"
-            >解绑</el-button
-          >
-
-          <el-button type="warning" size="mini" icon="el-icon-s-shop"
-            >续费</el-button
+            >删除</el-button
           >
         </template>
       </el-table-column>
@@ -173,37 +142,21 @@
       @current-change="handleCurrentChange"
       @size-change="handleSizeChange"
     ></el-pagination>
-    <move-group ref="moves" @fetchData="fetchData" />
-    <table-edit ref="edit" @fetchData="fetchData" />
-    <unbound ref="unbound" @fetchData="fetchData" />
-    <rules ref="rules" @formNetworkRules="formNetworkRules" />
-    <table-add ref="add" @fetchData="fetchData" />
-    <info ref="info" />
+
+    <move-group ref="moveGroup" @fetchData="fetchData" />
+    <add-rule ref="addRule" @fetchData="fetchData" />
   </div>
 </template>
 
 <script>
-import {
-  getList,
-  ruleDetail,
-  formNetworkRules,
-  getgroupOptions,
-} from '@/api/table'
-import TableEdit from './components/TableEdit'
-import Unbound from './components/Unbound'
-import Rules from './components/Rules'
-import TableAdd from './components/TableAdd'
-import moveGroup from './components/moveGroup'
-import Info from './components/Info'
+import { rulesGroupList, ruleList } from '@/api/table'
+import MoveGroup from './components/MoveGroup'
+import AddRule from './components/AddRule'
 export default {
-  name: 'ComprehensiveTable',
+  name: 'RuleManager',
   components: {
-    TableEdit,
-    Unbound,
-    Rules,
-    TableAdd,
-    moveGroup,
-    Info,
+    MoveGroup,
+    AddRule,
   },
   filters: {
     statusFilter(status) {
@@ -236,17 +189,19 @@ export default {
     }
   },
   computed: {
-    netWorkArea() {
-      return function (res) {
-        return res.province + res.city + res.area
+    getGroupName() {
+      return (id) => {
+        return (
+          (this.groupList.find((item) => item.id == id) &&
+            this.groupList.find((item) => item.id == id).name) ||
+          ''
+        )
       }
     },
   },
   created() {
-    // 网吧列表
     this.fetchData()
-    // 分组列表
-    this.getgroupOptions()
+    this.getGroupList()
   },
 
   beforeDestroy() {},
@@ -271,54 +226,31 @@ export default {
     setSelectRows(val) {
       this.selectRows = val
     },
+
     handleAdd() {
-      this.$refs['add'].showEdit()
+      this.$refs['addRule'].showEdit()
     },
     handleEdit(row) {
-      this.$refs['edit'].showEdit(row)
+      this.$refs['addRule'].showEdit(row)
     },
     handleDelete(row) {
       if (row.id) {
-        this.$refs['unbound'].showEdit(row, this.total)
-      }
-    },
-    // 分配规则
-    handleRules(row) {
-      if (row.id) {
-        this.$refs['rules'].showEdit(row)
-      } else if (this.selectRows.length > 0) {
-        this.$refs['rules'].showEdit(this.selectRows)
+        this.$baseConfirm('你确定要删除当前项么', null, () => {})
       } else {
-        this.$baseMessage('未选中任何行', 'error')
-        return false
+        if (this.setSelectRows.length > 0) {
+          this.$baseConfirm('你确定要删除选中项么', null, () => {})
+        } else {
+          this.$baseMessage('未选中任何行', 'error')
+        }
       }
     },
     // 移动分组
     moveGroup() {
       if (this.selectRows.length > 0) {
-        this.$refs['moves'].showEdit(this.selectRows)
+        this.$refs['moveGroup'].showEdit(this.selectRows)
       } else {
-        this.$baseMessage('未选中任何行', 'error')
-        return false
+        return this.$baseMessage('未选中任何行', 'error')
       }
-    },
-    // 提交规则后的处理
-    // 提交数据
-    formNetworkRules({ id, rule_id }) {
-      formNetworkRules({ id, rule_id }).then((res) => {
-        if (res.code == 200) {
-          this.$baseMessage(res.msg, 'success')
-          this.$refs['rules'].close()
-          this.fetchData()
-          this.dialogFormVisible = false
-        } else {
-          this.$baseMessage(res.msg, 'error')
-        }
-      })
-    },
-    // 网吧规则介绍说明弹出
-    goInfo() {
-      this.$refs['info'].showEdit()
     },
     handleSizeChange(val) {
       this.queryForm.limit = val
@@ -332,16 +264,11 @@ export default {
       this.queryForm.page = 1
       this.fetchData()
     },
-    // 获取网吧列表
+    // 获取规则列表
     fetchData() {
       this.listLoading = true
-      getList(this.queryForm).then((res) => {
+      ruleList(this.queryForm).then((res) => {
         this.list = res.data.data
-        // const imageList = []
-        // res.data.forEach((item, index) => {
-        //   imageList.push(item.img)
-        // })
-        // this.imageList = imageList
         this.total = res.data.total
         setTimeout(() => {
           this.listLoading = false
@@ -349,17 +276,14 @@ export default {
       })
     },
     // 获取分组列表
-    getgroupOptions() {
-      getgroupOptions().then((res) => {
+    getGroupList() {
+      rulesGroupList().then((res) => {
         if (res.code == 200) {
           this.groupList = res.data
         } else {
           this.$baseMessage(res.msg, 'error')
         }
       })
-    },
-    testMessage() {
-      this.$router.push({ path: '/manager/groupManager' })
     },
     testALert() {
       this.$baseAlert('11')
@@ -398,12 +322,16 @@ export default {
   background: transparent;
   color: rgba(255, 255, 255, 0.7);
 }
-.tipsButton {
-}
-.rules-info {
-  margin-left: 20px !important;
-}
 .el-select {
-  margin-right: 20px;
+  margin-right: 15px;
+}
+.el-tag {
+  background-color: transparent;
+}
+.left-btn {
+  margin-right: 15px;
+}
+.is-default {
+  color: #666;
 }
 </style>
